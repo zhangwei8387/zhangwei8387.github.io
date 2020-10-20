@@ -1,5 +1,6 @@
 .DS_Store
 Thumbs.db
+public.zip
 db.json
 *.log
 node_modules/
