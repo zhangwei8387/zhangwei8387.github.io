@@ -3,17 +3,17 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle: ''
+title: Zhang Wei's Blog
+subtitle: '太平无事'
 description: ''
 keywords:
-author: John Doe
+author: 张威
 language: zh-CN
-timezone: ''
+timezone: 'Asia/Shanghai'
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://example.com/child' and root as '/child/'
-url: http://example.com
+url: https://zhangwei8387.github.io
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
