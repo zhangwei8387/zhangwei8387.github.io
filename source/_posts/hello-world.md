@@ -1,38 +1,23 @@
 ---
-title: Hello World
+title: 第一篇个人博客
 ---
-Welcome to [Hexo](https://hexo.io/)! This is your very first post. Check [documentation](https://hexo.io/docs/) for more info. If you get any problems when using Hexo, you can find the answer in [troubleshooting](https://hexo.io/docs/troubleshooting.html) or you can ask me on [GitHub](https://github.com/hexojs/hexo/issues).
+这是我的第一篇个人博客，主要用于博客初始化搭建和样式调整
 
-## Quick Start
+# 为什么要写博客
 
-### Create a new post
+## 写作的意义
 
-``` bash
-$ hexo new "My New Post"
-```
+聪明的人类发明了语言创造了文字，而能将这一切传递下来的便是写作。写作对于自己来说，是思维的凝聚，是人格的升华。写作能让自己在百忙之中找到忙碌的意义，也能锻炼自己的表达能力，对于生活中的辩论与演讲都有很大的帮助。同时如果去写技术类文章的话，也有助于理清解决思路和提升技术实力，最终还能帮到别人，降低社会交流成本，提高笔者与读者的双向影响力。
 
-More info: [Writing](https://hexo.io/docs/writing.html)
+借用现在的我自己来说，我在大学中同时是两个学生实验室的主力成员，还要顾及编程社区的推动和发展，更不能落下课内知识。这时抽时间去写作去用文字总结自己变让一切有了意义。同时因自己是程序员的原因，技术类文章也锻炼了自己的思维方式，提升了自己的技术软硬实力，和读者互动，了解了更多的故事。
 
-### Run server
 
-``` bash
-$ hexo server
-```
 
-More info: [Server](https://hexo.io/docs/server.html)
+## 用博客落实写作
 
-### Generate static files
+日记通常是给自己看的，曝光度有限，而在网络上发布的博客更能吸引到志同道合的人。用博客落实写作的一个最重要的原因便是自己的文章能够得到广大读者的反馈，还不会像论文一样严肃有力。最终博客能展现的除了罗列信息之外，还能加入自己的心路历程分享出去。也因此用博客落实写作便可以是笔者前期写作的源动力之一。
 
-``` bash
-$ hexo generate
-```
+## 用博客升华自己
 
-More info: [Generating](https://hexo.io/docs/generating.html)
+通过多读书多提问而产出博客这整个过程，都能够抽离出解决问题、产出成功的方法论。通过写博客升华后的自己，完全可以将这种模式再加上具体情况去落实如何写 PPT、如何写文档、如何表达自己、如何辩论、如何演讲等等。。
 
-### Deploy to remote sites
-
-``` bash
-$ hexo deploy
-```
-
-More info: [Deployment](https://hexo.io/docs/one-command-deployment.html)
