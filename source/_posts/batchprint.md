@@ -69,7 +69,7 @@ pupeteer会下载一个特别的Chrome浏览器到你的项目中，大概120MB�
 ## 创建Restify API Server
 使用Restify提供的方法创建一个Server，并指定IP和端口。
 
-     ```javascript
+    ```javascript
     //指定Server的IP地址和端口
     const ip_addr = '127.0.0.1'; 
     const port = '8080';
@@ -87,8 +87,9 @@ pupeteer会下载一个特别的Chrome浏览器到你的项目中，大概120MB�
 
 ## 配置API的Route
 我们使用/print 来处理关于打印的请求。
+其中postNewPrintJob为该请求的Post回调函数。下面我们来实现它。
 
-    ```
+    ```javascript
     //启用restify的插件
     server.use(restify.plugins.queryParser());
     server.use(restify.plugins.bodyParser({ requestBodyOnGet: true }));
@@ -109,12 +110,10 @@ pupeteer会下载一个特别的Chrome浏览器到你的项目中，大概120MB�
     server.post({ path: PATH, version: '0.0.1' }, postNewPrintJob);
     ```
 
-其中postNewPrintJob为该请求的Post回调函数。下面我们来实现它。
-
-
 ## 实现postNewPrintJob
 该回调函数主要处理请求的数据，以及完成生成PDF的操作。
 
+    ```javascript
     function postNewPrintJob(req, res, next) {
     var job = {};
     //    job.title = req.params.title;
@@ -158,6 +157,7 @@ pupeteer会下载一个特别的Chrome浏览器到你的项目中，大概120MB�
         }
         return next(err);
     })();
+    ```
 
 上面的方法可以看到其中使用了Pupperteer对Chrome进行操作。具体API可以查询[Pupperteer](https://github.com/GoogleChrome/puppeteer)的GitHub.
 
