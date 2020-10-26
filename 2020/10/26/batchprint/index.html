@@ -254,7 +254,7 @@
 <span class="hljs-keyword">const</span> puppeteer = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;puppeteer&#x27;</span>);
 <span class="hljs-keyword">const</span> restify = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;restify&#x27;</span>);</code></pre></code></pre>
 <h2 id="创建Restify-API-Server"><a href="#创建Restify-API-Server" class="headerlink" title="创建Restify API Server"></a>创建Restify API Server</h2><p>使用Restify提供的方法创建一个Server，并指定IP和端口。</p>
-<pre><code> <pre><code class="hljs javascript"><span class="hljs-comment">//指定Server的IP地址和端口</span>
+<pre><code><pre><code class="hljs javascript"><span class="hljs-comment">//指定Server的IP地址和端口</span>
 <span class="hljs-keyword">const</span> ip_addr = <span class="hljs-string">&#x27;127.0.0.1&#x27;</span>; 
 <span class="hljs-keyword">const</span> port = <span class="hljs-string">&#x27;8080&#x27;</span>;
 
@@ -267,70 +267,69 @@ name: <span class="hljs-string">&#x27;Batch-Print-Server&#x27;</span>
 server.listen(port, ip_addr, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;
 <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;%s listening at %s &#x27;</span>, server.name, server.url);
 &#125;);</code></pre></code></pre>
-<h2 id="配置API的Route"><a href="#配置API的Route" class="headerlink" title="配置API的Route"></a>配置API的Route</h2><p>我们使用/print 来处理关于打印的请求。</p>
-<pre><code><pre><code class="hljs axapta"><span class="hljs-comment">//启用restify的插件</span>
-<span class="hljs-keyword">server</span>.use(restify.plugins.queryParser());
-<span class="hljs-keyword">server</span>.use(restify.plugins.bodyParser(&#123; requestBodyOnGet: <span class="hljs-literal">true</span> &#125;));
+<h2 id="配置API的Route"><a href="#配置API的Route" class="headerlink" title="配置API的Route"></a>配置API的Route</h2><p>我们使用/print 来处理关于打印的请求。<br>其中postNewPrintJob为该请求的Post回调函数。下面我们来实现它。</p>
+<pre><code><pre><code class="hljs javascript"><span class="hljs-comment">//启用restify的插件</span>
+server.use(restify.plugins.queryParser());
+server.use(restify.plugins.bodyParser(&#123; <span class="hljs-attr">requestBodyOnGet</span>: <span class="hljs-literal">true</span> &#125;));
 
 <span class="hljs-comment">//指定根路由返回内容</span>
-<span class="hljs-keyword">server</span>.get(<span class="hljs-string">&#x27;/&#x27;</span>, function(req, res, <span class="hljs-keyword">next</span>) &#123;
+server.get(<span class="hljs-string">&#x27;/&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res, next</span>) </span>&#123;
 res.send(<span class="hljs-string">&#x27;Hello BatchPrint!&#x27;</span>);
-<span class="hljs-keyword">return</span> <span class="hljs-keyword">next</span>();
+<span class="hljs-keyword">return</span> next();
 &#125;);
 <span class="hljs-comment">// testing the service  </span>
-<span class="hljs-keyword">server</span>.get(<span class="hljs-string">&#x27;/test&#x27;</span>, function (req, res, <span class="hljs-keyword">next</span>) &#123;  
+server.get(<span class="hljs-string">&#x27;/test&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">req, res, next</span>) </span>&#123;  
     res.send(<span class="hljs-string">&quot;testing...&quot;</span>);  
-    <span class="hljs-keyword">next</span>();  
+    next();  
 &#125;);
 <span class="hljs-comment">//指定Route</span>
 PATH = <span class="hljs-string">&#x27;/print&#x27;</span>;
 <span class="hljs-comment">//指定相应Route的方法</span>
-<span class="hljs-keyword">server</span>.post(&#123; path: PATH, version: <span class="hljs-string">&#x27;0.0.1&#x27;</span> &#125;, postNewPrintJob);</code></pre></code></pre>
-<p>其中postNewPrintJob为该请求的Post回调函数。下面我们来实现它。</p>
+server.post(&#123; <span class="hljs-attr">path</span>: PATH, <span class="hljs-attr">version</span>: <span class="hljs-string">&#x27;0.0.1&#x27;</span> &#125;, postNewPrintJob);</code></pre></code></pre>
 <h2 id="实现postNewPrintJob"><a href="#实现postNewPrintJob" class="headerlink" title="实现postNewPrintJob"></a>实现postNewPrintJob</h2><p>该回调函数主要处理请求的数据，以及完成生成PDF的操作。</p>
-<pre><code>function postNewPrintJob(req, res, next) &#123;
-var job = &#123;&#125;;
-//    job.title = req.params.title;
-//    job.description = req.params.description;
+<pre><code><pre><code class="hljs javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">postNewPrintJob</span>(<span class="hljs-params">req, res, next</span>) </span>&#123;
+<span class="hljs-keyword">var</span> job = &#123;&#125;;
+<span class="hljs-comment">//    job.title = req.params.title;</span>
+<span class="hljs-comment">//    job.description = req.params.description;</span>
 job.location = req.params.location;
 job.filename = req.params.filename;
-job.postedOn = new Date().toLocaleString();
+job.postedOn = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().toLocaleString();
 
-console.log(job);
+<span class="hljs-built_in">console</span>.log(job);
 
-//设置跨域响应
-res.setHeader(&#39;Access-Control-Allow-Origin&#39;, &#39;*&#39;);
+<span class="hljs-comment">//设置跨域响应</span>
+res.setHeader(<span class="hljs-string">&#x27;Access-Control-Allow-Origin&#x27;</span>, <span class="hljs-string">&#x27;*&#x27;</span>);
 
-(async () =&gt; &#123;
-    //启动Chrome
-    const browser = await puppeteer.launch();
-    //新建Page
-    const page = await browser.newPage();
-    //打开页面 load方式指页面所有事务执行完毕
-    await page.goto(job.location, &#123; waitUntil: &#39;load&#39; &#125;);
-    //指定响应Media为Print
-    await page.emulateMedia(&#39;print&#39;);
-    //生成PDF文件，format设为A4,margin为默认页边距。
-    const pdffile = await page.pdf(&#123;
-    path: pdffiledirectory+&#39;/&#39;+job.filename,
-    format: &#39;A4&#39;,
+(<span class="hljs-keyword">async</span> () =&gt; &#123;
+    <span class="hljs-comment">//启动Chrome</span>
+    <span class="hljs-keyword">const</span> browser = <span class="hljs-keyword">await</span> puppeteer.launch();
+    <span class="hljs-comment">//新建Page</span>
+    <span class="hljs-keyword">const</span> page = <span class="hljs-keyword">await</span> browser.newPage();
+    <span class="hljs-comment">//打开页面 load方式指页面所有事务执行完毕</span>
+    <span class="hljs-keyword">await</span> page.goto(job.location, &#123; <span class="hljs-attr">waitUntil</span>: <span class="hljs-string">&#x27;load&#x27;</span> &#125;);
+    <span class="hljs-comment">//指定响应Media为Print</span>
+    <span class="hljs-keyword">await</span> page.emulateMedia(<span class="hljs-string">&#x27;print&#x27;</span>);
+    <span class="hljs-comment">//生成PDF文件，format设为A4,margin为默认页边距。</span>
+    <span class="hljs-keyword">const</span> pdffile = <span class="hljs-keyword">await</span> page.pdf(&#123;
+    path: pdffiledirectory+<span class="hljs-string">&#x27;/&#x27;</span>+job.filename,
+    format: <span class="hljs-string">&#x27;A4&#x27;</span>,
     margin: &#123;
-        top: &#39;10mm&#39;,
-        bottom: &#39;10mm&#39;,
-        left: &#39;10mm&#39;,
-        right: &#39;10mm&#39;
+        top: <span class="hljs-string">&#x27;10mm&#x27;</span>,
+        bottom: <span class="hljs-string">&#x27;10mm&#x27;</span>,
+        left: <span class="hljs-string">&#x27;10mm&#x27;</span>,
+        right: <span class="hljs-string">&#x27;10mm&#x27;</span>
     &#125;
     &#125;);
-    //关闭浏览器。
+    <span class="hljs-comment">//关闭浏览器。</span>
     browser.close();
 
-    if (pdffile) &#123;
-    //返回结果。
-    res.send(200, pdffile);
-    return next();
+    <span class="hljs-keyword">if</span> (pdffile) &#123;
+    <span class="hljs-comment">//返回结果。</span>
+    res.send(<span class="hljs-number">200</span>, pdffile);
+    <span class="hljs-keyword">return</span> next();
     &#125;
-    return next(err);
-&#125;)();</code></pre>
+    <span class="hljs-keyword">return</span> next(err);
+&#125;)();</code></pre></code></pre>
 <p>上面的方法可以看到其中使用了Pupperteer对Chrome进行操作。具体API可以查询<a target="_blank" rel="noopener" href="https://github.com/GoogleChrome/puppeteer">Pupperteer</a>的GitHub.</p>
 <p>具体代码请查看<a target="_blank" rel="noopener" href="https://github.com/zhangwei8387/STAr-BatchPrint/blob/master/index.js">index.js</a></p>
 <h2 id="启动Server"><a href="#启动Server" class="headerlink" title="启动Server"></a>启动Server</h2><p>在CMD命令行中执行node index.js</p>
