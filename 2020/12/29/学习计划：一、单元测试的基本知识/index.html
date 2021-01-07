@@ -1,0 +1,553 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="张威">
+  <meta name="keywords" content="">
+  <title>一、单元测试的基本知识 - Zhang Wei&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+    
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Zhang Wei's Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/assets/banner/20200307203002.jpg-slim') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container page-header text-center fade-in-up">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-12-29 09:08" pubdate>
+        2020年12月29日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      22
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto" id="post">
+            <!-- SEO header -->
+            <h1 style="display: none">一、单元测试的基本知识</h1>
+            
+            <div class="markdown-body" id="post-body">
+              <h1 id="一、单元测试的基本知识"><a href="#一、单元测试的基本知识" class="headerlink" title="一、单元测试的基本知识"></a>一、单元测试的基本知识</h1><p><a name="qxLMH"></a></p>
+<h2 id="什么是单元测试"><a href="#什么是单元测试" class="headerlink" title="什么是单元测试"></a>什么是单元测试</h2><blockquote>
+<p>一个单元测试是一段自动化的代码。<br>这段代码调用被测试的工作单元，之后对这个工作单元的单个最终结果的某些假设进行检验。<br>单元测试几乎都是用单元测试框架编写的。<br>单元测试容易编写，能快速运行。<br>单元测试可靠，可读，并且可维护。<br>只要产品代码不发生变化，单元测试的结果是稳定的。</p>
+</blockquote>
+<p>——-以上摘自《单元测试的艺术》–Roy Osherove</p>
+<hr>
+<p><a name="DPjgN"></a></p>
+<h3 id="几个概念"><a href="#几个概念" class="headerlink" title="几个概念"></a>几个概念</h3><p><a name="U2lir"></a></p>
+<h4 id="1-被测试系统"><a href="#1-被测试系统" class="headerlink" title="1.被测试系统"></a>1.被测试系统</h4><p>SUT 代表System Under Test。在测试中，被测试的对象称为SUT。</p>
+<hr>
+<p><a name="cPFKF"></a></p>
+<h4 id="2-工作单元"><a href="#2-工作单元" class="headerlink" title="2.工作单元"></a>2.工作单元</h4><p>从调用系统的一个公共方法到产生一个测试可见的最终结果，其间这个系统发生的行为总称为一个工作单元(unit of work)。<br />最终结果结果可以是以下任何一种形式：</p>
+<ul>
+<li>被调用的公共方法返回一个值。</li>
+<li>在方法调用前后，系统的状态或者行为有可见的变化，这种变化无需查询私有状态即可判断。</li>
+<li>调用了一个不受测试控制的第三方系统，这个第三方系统不返回任何值，或者返回值都被忽略了。</li>
+</ul>
+<p>这里的Unit of work与DDD中的UnitOfWork概念不一样，UOW是一种数据访问模式， 是用来管理仓储，处理事务的，仓储用来解耦的（领域层与基础设施层）。</p>
+<hr>
+<p><a name="D9T8C"></a></p>
+<h4 id="3-自动化测试的大致分类"><a href="#3-自动化测试的大致分类" class="headerlink" title="3.自动化测试的大致分类"></a>3.自动化测试的大致分类</h4><p><strong><img src="https://cdn.nlark.com/yuque/0/2021/png/10356904/1609910996992-d5843d43-ec04-45a6-9664-ffbc0ad38305.png#align=left&display=inline&height=600&margin=%5Bobject%20Object%5D&name=%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E5%88%86%E7%B1%BB.png&originHeight=600&originWidth=1156&size=17369&status=done&style=none&width=1156" srcset="/img/loading.gif" alt="单元测试分类.png"></strong><br />纵轴表示测试的深度，也就是说测试的细致程度。<br />横轴则表示测试的覆盖程度。</p>
+<ul>
+<li>Unit Test 单元测试， 它可以测试一个类，或者一个类的某个功能，它具有很好的深度，但是对整个应用来说它不具备很好的覆盖面。</li>
+<li>Integration Test 集成测试，它没有单元测试那么细致，但是具有相对较好的测试覆盖面。例如它可以测试功能的组合，以及像数据库或文件系统这样的外部资源等。</li>
+<li>Subcutaneous Test 皮下测试，也有的叫接口测试，这种测试作用于UI层的下面一层，这也意味着它对整个应用来说有很好的覆盖率，但是深度欠佳。以一个MVC结构的应用来说，它就是针对刚好在Controller那一层的测试，对于Web service或者WCF来说，它就是对终结点 那层的测试。</li>
+<li>UI测试，它的测试覆盖面很广，直接从UI层面进行测试，但是深度欠佳。</li>
+</ul>
+<p>从速度来看 单元是最快的，而UI测试是最慢的。<br />从脆弱性来看 UI测试是最差的，程序修改后极有可能需要修改测试代码，而单元测试是最好的。</p>
+<hr>
+<p><a name="qum1U"></a></p>
+<h4 id="4-集成测试"><a href="#4-集成测试" class="headerlink" title="4.集成测试"></a>4.集成测试</h4><blockquote>
+<p>集成测试是对一个工作单元进行的测试，则个测试对被测试的工作单元没有完全的控制，并使用该单元的一个或者多个真实依赖物，例如时间，网络，数据库，现成或者随机数产生器。</p>
+</blockquote>
+<p>集成测试与单元测试最大的区别就是，集成测试会使用真实依赖物，而单元测试则把被测试单元和其依赖物隔离开，以保证单元测试结果高度稳定，还可以轻易控制和模拟被测试单元行为的任何方面。<br /> 实际工作中，集成测试和单元测试很容易混在一起。<br />我们在编写测试代码的时候应该尽量将这两种测试区分开。<br />一般的测试框架也同时支持单元测试和集成测试。</p>
+<hr>
+<p><a name="fEKAy"></a></p>
+<h4 id="5-测试驱动开发"><a href="#5-测试驱动开发" class="headerlink" title="5.测试驱动开发"></a>5.测试驱动开发</h4><p>测试驱动开发(Test-Driven Development,TDD)的具体含义有很多不同的观点，这里引用一个观点。</p>
+<blockquote>
+<p>TDD是一个软件开发过程，这个过程依赖于重复性的小开发周期：需求被转化为具体的测试用例，然后改进程序以便通过测试。</p>
+</blockquote>
+<p>TDD和传统开发方式不同，我们首先会编写一个会失败的测试，然后创建产品代码，并确保这个测试通过，接下来就是重构代码或者创建另一个会失败的测试。<br />看下面两张图：<br />** 传统的开发流程**<br /><img src="https://cdn.nlark.com/yuque/0/2021/png/10356904/1609912776362-677a6a77-5611-4474-a45f-0e91a1119f5f.png#align=left&display=inline&height=407&margin=%5Bobject%20Object%5D&name=%E4%BC%A0%E7%BB%9F%E6%B5%8B%E8%AF%95%E6%B5%81%E7%A8%8B.png&originHeight=544&originWidth=730&size=98877&status=done&style=none&width=546" srcset="/img/loading.gif" alt="传统测试流程.png"><br /><strong>TDD开发流程</strong><br /><img src="https://cdn.nlark.com/yuque/0/2021/png/10356904/1609912830411-7e0c11f7-32f2-4f74-be42-6126017d6de8.png#align=left&display=inline&height=586&margin=%5Bobject%20Object%5D&name=TDD%E6%B5%81%E7%A8%8B.png&originHeight=758&originWidth=867&size=220564&status=done&style=none&width=670" srcset="/img/loading.gif" alt="TDD流程.png"><br />在TDD里有两条规则：<br />只在有未通过的自动化测试的情况下，你才会去写新的代码<br />消灭重复<br /><br><br />这两条规则在技术上的含义是：<br />你必须进行良好的设计，运行的代码可在决策之间提供反馈<br />开发人员得写自己的测试<br />开发环境可以针对微小的变化需要提供快速的响应<br />您的设计必须由众多高内聚、低耦合的组件组成，这样测试会更简单。<br /><br><br />这两条规则也意味着编程的三个任务：<br />Red - 先写一个不能工作/通过的小测试，甚至根本无法编译<br />Green - 快速让这个测试通过，无论代码有多烂<br />Refactor - 重构，消除上个步骤中的代码重复。<br />Red，Green，Refactor，这就是TDD的三字真言。<br /><br><br /> 我们现在主要讲如何编写单元测试，而不是讲测试驱动开发。其他关于TDD的细节可以上网查询。</p>
+<hr>
+<p><a name="kFwZK"></a></p>
+<h2 id="为什么要做单元测试"><a href="#为什么要做单元测试" class="headerlink" title="为什么要做单元测试"></a>为什么要做单元测试</h2><ul>
+<li>可以频繁的进行测试</li>
+<li>可以在任何时间进行测试，也可以按计划定时进行，例如：可以在半夜进行自动测试。</li>
+<li>肯定比人工测试要快。</li>
+<li>可以更快速的发现错误。</li>
+<li>基本上是非常可靠的。</li>
+<li>测试代码与生产代码紧密结合。</li>
+<li>使得开发团队更具有幸福感！</li>
+</ul>
+<hr>
+<p><a name="N2FPM"></a></p>
+<h2 id="什么是优秀的单元测试"><a href="#什么是优秀的单元测试" class="headerlink" title="什么是优秀的单元测试"></a>什么是优秀的单元测试</h2><p>一个优秀的单元测试应当具有以下特征：</p>
+<ul>
+<li>它应该是自动化的，可重复执行的；</li>
+<li>它应该很容易实现；</li>
+<li>它应该第二天还有意义；</li>
+<li>它任何人都应该能一键运行它；</li>
+<li>它应该运行速度很快；</li>
+<li>它的结果应该是稳定的（如果运行期间没有进行修改的话，多次运行一个测试应该总是返回同样的结果）；</li>
+<li>它应该能完全控制被测试的单元；</li>
+<li>它应该是完全隔离的（独立于其他测试的运行）</li>
+</ul>
+<hr>
+<p><a name="cpOjq"></a></p>
+<h2 id="单元测试框架"><a href="#单元测试框架" class="headerlink" title="单元测试框架"></a>单元测试框架</h2><p>单元测试框架是帮助开发人员进行单元测试的代码库或者模块。单元测试框架还可以作为自动编译过程的一个步骤运行测试。<br /></p>
+<p><a name="ZTnCW"></a></p>
+<h3 id="单元测试框架的功能："><a href="#单元测试框架的功能：" class="headerlink" title="单元测试框架的功能："></a>单元测试框架的功能：</h3><ul>
+<li>运行 Test Case：这包括直接运行测试用例，或是以数据驱动的方式来运行</li>
+<li>断言判断：用来判断测试结果是否合理的系统支持</li>
+<li>不同级别的Fixture（夹具，这个单词这么翻译过来总觉的怪怪的~~）：即可以在Case开始和结束的时候做一些初始化的操作，以及支持自动化测试的理念</li>
+<li>输出日志：可以在不同的载体上输出Case的运行日志</li>
+</ul>
+<p><a name="lR0Xr"></a></p>
+<h3 id="三大主流测试框架："><a href="#三大主流测试框架：" class="headerlink" title="三大主流测试框架："></a>三大主流测试框架：</h3><p><a name="FE0NH"></a></p>
+<h4 id="MSTest"><a href="#MSTest" class="headerlink" title="MSTest"></a><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/visualstudio/test/using-microsoft-visualstudio-testtools-unittesting-members-in-unit-tests?view=vs-2019">MSTest</a></h4><p>MS Test框架是Visual Studio自带的测试框架，可以通过新建一个Unit Test Project工程，也可以建一个Class Libary，然后添加对Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll的引用。<br />然后就是创建测试用例，进行测试即可。<br><a name="HAlom"></a></p>
+<h4 id="NUnit"><a href="#NUnit" class="headerlink" title="NUnit"></a><a target="_blank" rel="noopener" href="https://nunit.org/">NUnit</a></h4><p>NUnit Test框架是一个xUnit家族种的第4个主打产品，完全由C#语言来编写，支持所有的.Net语言。<br />使用NUnit框架，我们需要下载<a target="_blank" rel="noopener" href="http://www.nunit.org/index.php?p=download">安装包</a>，安装后使用独立客户端进行使用。使用方法与MS Test类似，<br />新建一个Class Libary，然后添加对nunit.framework.dll的引用，最后创建测试用例，在客户端中进行测试。<br><a name="9SpwL"></a></p>
+<h4 id="XUnit-Net"><a href="#XUnit-Net" class="headerlink" title="XUnit.Net"></a><a target="_blank" rel="noopener" href="https://github.com/xunit/xunit">XUnit.Net</a></h4><p>xUnit.Net的由来：NUnit的创造者Jim Newkirk公布了一个新的单元测试框架，叫做xUnit.net。这是一个以NUnit的接班人自许的新框架，作者打算消除NUnit的错误和缺点，并在框架中加入一些最佳实践和扩展能力。xUnit.Net是开源的GitHub地址：<a target="_blank" rel="noopener" href="https://github.com/xunit/xunit">https://github.com/xunit/xunit</a>。<br />下一篇，我们将以XUnit.Net作为这一系列技术分享的主要测试框架。<br><a name="J6y4A"></a></p>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92/">学习计划</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">单元测试</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/12/29/%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92%EF%BC%9A%E4%BA%8C%E3%80%81%E7%BC%96%E5%86%99%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">二、编写第一个单元测试</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/10/26/batchprint/">
+                        <span class="hidden-mobile">batchprint</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '#post-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "一、单元测试的基本知识&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
