@@ -1,18 +1,17 @@
-name: Pages
+name: Build and deploy GitHub Pages (official)
 
 on:
   push:
     branches:
-      - master # default branch
+      - master
 
-# 推荐把必要的权限放在顶层，确保部署动作有写 Pages 的权限
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
 jobs:
-  pages:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -23,24 +22,66 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Cache NPM dependencies
+      - name: Show and remove repo .npmrc if it forces taobao registry
+        run: |
+          if [ -f .npmrc ]; then
+            echo "---- .npmrc content ----"
+            cat .npmrc
+            # 如果 .npmrc 中强制了 registry，暂时备份并删除，避免 CI 被强制到 taobao
+            cp .npmrc .npmrc.ci.bak || true
+            grep -v 'registry=' .npmrc > .npmrc.tmp || true
+            mv .npmrc.tmp .npmrc || true
+            echo ".npmrc modified for CI run (backup .npmrc.ci.bak)"
+          else
+            echo "no .npmrc in repo"
+          fi
+
+      - name: Force npm registry to official (or npmmirror)
+        run: |
+          # 推荐使用官方 registry 或在中国大陆使用 npmmirror
+          npm config set registry https://registry.npmjs.org/
+          # 若你更愿意用 npmmirror，取消下面一行注释：
+          # npm config set registry https://registry.npmmirror.com/
+          echo "registry set to: $(npm config get registry)"
+
+      - name: Replace taobao URLs in package-lock.json (if present)
+        run: |
+          if [ -f package-lock.json ]; then
+            echo "Replacing registry.npm.taobao.org -> registry.npmjs.org in package-lock.json"
+            sed -i 's|registry.npm.taobao.org|registry.npmjs.org|g' package-lock.json || true
+            # 也可以替换为 npmmirror.com：
+            # sed -i 's|registry.npm.taobao.org|registry.npmmirror.com|g' package-lock.json || true
+            git --no-pager diff -- package-lock.json || true
+          else
+            echo "no package-lock.json"
+          fi
+
+      - name: Clean npm cache to avoid stale artifacts
+        run: npm cache clean --force
+
+      - name: Cache npm (note: key includes package-lock hash)
         uses: actions/cache@v3
         with:
           path: |
-            node_modules
             ~/.npm
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+            node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}-${{ env.GITHUB_RUN_ID }}
           restore-keys: |
-            ${{ runner.os }}-npm-
+            ${{ runner.os }}-node-
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Build
+      - name: Build site
         run: npm run build
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
+          path: ./public
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v2
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v1
