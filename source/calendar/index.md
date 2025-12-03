@@ -230,8 +230,18 @@ layout: page
   let currentDate = new Date();
   let selectedDate = null;
   
-  // 模拟文章数据 - 这里应该从 Hexo 的数据中获取
-  // 实际使用时可以通过 Hexo 的模板引擎传入数据
+  // 文章数据数组
+  // 数据格式示例: 
+  // [
+  //   { date: '2025-12-03', title: '文章标题', url: '/2025/12/03/article-name/' },
+  //   { date: '2025-12-01', title: '另一篇文章', url: '/2025/12/01/another-article/' }
+  // ]
+  // 可以通过 Hexo 的 EJS/Nunjucks 模板引擎注入数据，例如：
+  // <%- JSON.stringify(site.posts.sort('date', -1).map(post => ({
+  //   date: date(post.date, 'YYYY-MM-DD'),
+  //   title: post.title,
+  //   url: url_for(post.path)
+  // }))) %>
   const posts = [];
   
   function formatDate(date) {
@@ -382,8 +392,12 @@ layout: page
   // Initial render
   renderCalendar();
   
-  // 如果页面有 Hexo 的文章数据，可以在这里初始化
-  // 例如: if (window.hexoPostsData) { posts = window.hexoPostsData; renderCalendar(); }
+  // 如果页面通过全局变量传入 Hexo 的文章数据，可以在这里初始化
+  // 数据格式: window.hexoPostsData = [{ date: 'YYYY-MM-DD', title: '标题', url: '/path/' }, ...]
+  if (typeof window.hexoPostsData !== 'undefined' && Array.isArray(window.hexoPostsData)) {
+    posts.push(...window.hexoPostsData);
+    renderCalendar();
+  }
 })();
 </script>
 

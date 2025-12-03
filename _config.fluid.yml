@@ -118,7 +118,7 @@ navbar:
     - { key: 'archive', link: '/archives/', icon: 'iconfont icon-archive-fill' }
     - { key: 'category', link: '/categories/', icon: 'iconfont icon-category-fill' }
     - { key: 'tag', link: '/tags/', icon: 'iconfont icon-tags-fill' }
-    - { key: '日历', link: '/calendar/', icon: 'iconfont icon-calendar-fill', name: '日历' }
+    - { key: 'calendar', link: '/calendar/', icon: 'iconfont icon-calendar-fill', name: '日历' }
     - { key: 'about', link: '/about/', icon: 'iconfont icon-user-fill' }
     #- { key: 'links', link: '/links/', icon: 'iconfont icon-link-fill' }  # 友链页，把前面#去掉即可展示
 
