@@ -12,10 +12,10 @@ jobs:
       - name: Checkout代码
         uses: actions/checkout@v4
 
-      - name: 使用Node.js 16.x
+      - name: 使用Node.js 18.x
         uses: actions/setup-node@v4
         with:
-          node-version: '16'
+          node-version: '18'
 
       - name: 设置npm镜像源
         run: |
@@ -25,7 +25,7 @@ jobs:
           npm config get registry
 
       - name: 缓存npm依赖
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.npm

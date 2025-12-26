@@ -17,10 +17,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Use Node.js 16.x
+      - name: Use Node.js 18.x
         uses: actions/setup-node@v4
         with:
-          node-version: '16'
+          node-version: '18'
 
       - name: Show and remove repo .npmrc if it forces taobao registry
         run: |
@@ -60,7 +60,7 @@ jobs:
         run: npm cache clean --force
 
       - name: Cache npm (note: key includes package-lock hash)
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.npm
