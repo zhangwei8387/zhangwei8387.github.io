@@ -17,9 +17,11 @@
 首先，Fork 本仓库到你的 GitHub 账号下，然后克隆到本地：
 
 ```bash
-git clone https://github.com/你的用户名/zhangwei8387.github.io.git
+git clone https://github.com/<your-username>/zhangwei8387.github.io.git
 cd zhangwei8387.github.io
 ```
+
+> 注意：将 `<your-username>` 替换为你的 GitHub 用户名
 
 ### 2. 添加上游仓库
 
@@ -34,8 +36,10 @@ git remote add upstream https://github.com/zhangwei8387/zhangwei8387.github.io.g
 ```bash
 git checkout master
 git pull upstream master
-git checkout -b feature/你的功能名称
+git checkout -b feature/<your-feature-name>
 ```
+
+> 注意：将 `<your-feature-name>` 替换为描述你功能的名称，例如 `add-new-post` 或 `fix-typo`
 
 ### 4. 本地开发和测试
 
@@ -77,7 +81,7 @@ git commit -m "描述你的更改"
 ### 2. 推送到你的 Fork
 
 ```bash
-git push origin feature/你的功能名称
+git push origin feature/<your-feature-name>
 ```
 
 ### 3. 创建 Pull Request
@@ -139,16 +143,16 @@ git checkout master
 git pull origin master
 
 # 3. 合并功能分支
-git merge --no-ff feature/你的功能名称
+git merge --no-ff feature/<your-feature-name>
 
 # 4. 推送到远程仓库
 git push origin master
 
 # 5. 删除本地功能分支（可选）
-git branch -d feature/你的功能名称
+git branch -d feature/<your-feature-name>
 
 # 6. 删除远程功能分支（可选）
-git push origin --delete feature/你的功能名称
+git push origin --delete feature/<your-feature-name>
 ```
 
 **注意**：使用 `--no-ff` 参数可以保留分支的提交历史，使项目历史更清晰。
@@ -180,7 +184,7 @@ A: 只需在你的功能分支上提交新的更改并推送：
 ```bash
 git add .
 git commit -m "修复问题"
-git push origin feature/你的功能名称
+git push origin feature/<your-feature-name>
 ```
 
 PR 会自动更新，检查也会重新运行。
@@ -191,16 +195,16 @@ A: 在你的功能分支上合并或变基 master：
 
 ```bash
 # 方式一：合并（推荐）
-git checkout feature/你的功能名称
+git checkout feature/<your-feature-name>
 git fetch upstream
 git merge upstream/master
-git push origin feature/你的功能名称
+git push origin feature/<your-feature-name>
 
 # 方式二：变基（会重写历史）
-git checkout feature/你的功能名称
+git checkout feature/<your-feature-name>
 git fetch upstream
 git rebase upstream/master
-git push origin feature/你的功能名称 --force-with-lease
+git push origin feature/<your-feature-name> --force-with-lease
 ```
 
 ### Q: 我没有合并权限怎么办？
@@ -224,7 +228,7 @@ A: 如果 PR 显示有合并冲突：
 
 2. 切换到你的功能分支并合并 master：
    ```bash
-   git checkout feature/你的功能名称
+   git checkout feature/<your-feature-name>
    git merge master
    ```
 
@@ -236,7 +240,7 @@ A: 如果 PR 显示有合并冲突：
 
 4. 推送到你的分支：
    ```bash
-   git push origin feature/你的功能名称
+   git push origin feature/<your-feature-name>
    ```
 
 ## 联系方式
