@@ -1,0 +1,53 @@
+name: PR检查和验证
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout代码
+        uses: actions/checkout@v4
+
+      - name: 使用Node.js 16.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: '16'
+
+      - name: 设置npm镜像源
+        run: |
+          npm config set registry https://registry.npmjs.org/
+          # 若在中国大陆且想用镜像，取消注释下面一行：
+          # npm config set registry https://registry.npmmirror.com/
+          npm config get registry
+
+      - name: 缓存npm依赖
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.npm
+            node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: 安装依赖
+        run: npm ci
+
+      - name: 构建网站
+        run: npm run build
+
+      - name: 验证构建产物
+        run: |
+          if [ ! -d "public" ]; then
+            echo "错误：构建目录 public 不存在"
+            exit 1
+          fi
+          if [ ! -f "public/index.html" ]; then
+            echo "错误：public/index.html 不存在"
+            exit 1
+          fi
+          echo "✅ 构建验证通过"
