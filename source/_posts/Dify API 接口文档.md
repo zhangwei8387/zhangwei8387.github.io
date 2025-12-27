@@ -1,3 +1,15 @@
+---
+title: Dify API 接口文档
+date: 2025-12-27 10:00:00
+categories:
+  - 技术文档
+tags:
+  - Dify
+  - API
+  - 接口文档
+---
+
+
 # Dify API 接口文档
 
 ## 1. 发送对话消息 (Send Chat Message)
